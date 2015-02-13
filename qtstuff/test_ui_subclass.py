@@ -1,16 +1,18 @@
 __author__ = 'charles.cognato'
 
-import pymongo
+# import pymongo
 from PyQt4 import QtGui, QtCore
 from qtstuff.test_ui import Ui_MainWindow
 
 from qtstuff.validated_item_delagate import ValidatedItemDelegate
 
 # MOD([DEC_NUM], 5) + 1) / 2 + 402.5
-# a change
 
 headers = ('Serial Number', 'PCBA S/N', 'Tx Freq', 'Work Order', '3.30v',
-           '1.80v', '3.00v', 'Batt Voltage', 'Technician1', 'Date')
+           '1.80v', '3.00v', 'Batt Voltage', 'Technician1', 'Date1', 'SW Rev',
+            'S/N Match', 'Freq. Match', 'Transmit GPS Mode (0,1)', 'Technician2', 'Date2',
+            'Time 3D Fix', 'PADS S/N', 'Pressure', 'Humidity', 'Temperature', 'Vbatt',
+            'RSSI', 'Sat CNO', 'RF Level', 'Technician3', 'Date3', 'Pass/Fail', 'NCM #', 'Notes')
 
 
 class TestUi(QtGui.QMainWindow, Ui_MainWindow):
