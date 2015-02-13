@@ -16,4 +16,9 @@ class ValidatedItemDelegate(QtGui.QStyledItemDelegate):
             validator = QtGui.QRegExpValidator(QtCore.QRegExp(self.reg_exp), editor)
             editor.setValidator(validator)
             return editor
+        elif index.column() == 4:
+            editor = QtGui.QLineEdit(widget)
+            validator = QtGui.QRegExpValidator(QtCore.QRegExp('[3][\.][2|3][5-9]|[0-5]'), editor)
+            editor.setValidator(validator)
+            return editor
         return super(ValidatedItemDelegate, self).createEditor(widget, option, index)
