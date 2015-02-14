@@ -32,7 +32,7 @@ class TestUi(QtGui.QMainWindow, Ui_MainWindow):
         validator = QtGui.QRegExpValidator(QtCore.QRegExp('0x4020[0-9A-F]{4}'), self)
         self.lineEdit.setValidator(validator)
 
-        validated_item = ValidatedItemDelegate("0x4020[0-9A-F]{4}")
+        validated_item = ValidatedItemDelegate()
         self.tableWidget.setItemDelegate(validated_item)
 
     def event(self, event):
