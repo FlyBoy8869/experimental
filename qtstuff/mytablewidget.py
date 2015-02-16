@@ -1,10 +1,14 @@
 __author__ = 'charles'
 
+from datetime import datetime
 from PyQt4.QtCore import QEvent, Qt
 from PyQt4.QtGui import QTableWidget, QWidget, QTableWidgetItem
 
 headers = ('Serial Number', 'PCBA S/N', 'Tx Freq', 'Work Order', '3.30v',
-           '1.80v', '3.00v', 'Batt Voltage', 'Technician1', 'Date')
+           '1.80v', '3.00v', 'Batt Voltage', 'Technician1', 'Date1', 'SW Rev',
+            'S/N Match', 'Freq. Match', 'Transmit GPS Mode (0,1)', 'Technician2', 'Date2',
+            'Time 3D Fix', 'PADS S/N', 'Pressure', 'Humidity', 'Temperature', 'Vbatt',
+            'RSSI', 'Sat CNO', 'RF Level', 'Technician3', 'Date3', 'Pass/Fail', 'NCM #', 'Notes')
 
 
 class MyTableWidget(QTableWidget):
@@ -67,4 +71,10 @@ class MyTableWidget(QTableWidget):
     def initialize_row(self, row):
         for i in range(len(headers)):
             item = QTableWidgetItem()
+            item.setTextAlignment(Qt.AlignCenter)
+
+            if i in [9, 15, 26]:  # indexes of date columns in header
+                date = datetime.now().strftime('%m/%d/%y')
+                item.setText(date)
+
             self.setItem(row, i, item)

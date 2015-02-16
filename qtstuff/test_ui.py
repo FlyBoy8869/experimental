@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'test_ui.ui'
 #
-# Created: Thu Feb 12 20:06:04 2015
+# Created: Sat Feb 14 15:27:13 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -51,6 +51,8 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.lineEdit)
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
+        spacerItem = QtGui.QSpacerItem(10, 20, QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
         self.buttonAddRow = QtGui.QPushButton(self.centralwidget)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -87,8 +89,8 @@ class Ui_MainWindow(object):
         self.buttonDeleteRow.setIcon(icon1)
         self.buttonDeleteRow.setObjectName(_fromUtf8("buttonDeleteRow"))
         self.horizontalLayout.addWidget(self.buttonDeleteRow)
-        spacerItem = QtGui.QSpacerItem(13, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem)
+        spacerItem1 = QtGui.QSpacerItem(13, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem1)
         self.verticalLayout.addLayout(self.horizontalLayout)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
