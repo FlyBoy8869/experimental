@@ -32,7 +32,8 @@ class TestUi(QtGui.QMainWindow, Ui_MainWindow):
         validator = QtGui.QRegExpValidator(QtCore.QRegExp('0x4020[0-9A-F]{4}'), self)
         self.lineEdit.setValidator(validator)
 
-        validated_item = ValidatedItemDelegate("0x4020[0-9A-F]{4}")
+        self.invalid_cells = []
+        validated_item = ValidatedItemDelegate(self.invalid_cells)
         self.tableWidget.setItemDelegate(validated_item)
 
     def event(self, event):
@@ -52,6 +53,10 @@ class TestUi(QtGui.QMainWindow, Ui_MainWindow):
 
     def _cell_changed(self, row, col):
         # MOD([DEC_NUM], 5) + 1) / 2 + 402.5
+
+        cell_id = str(row) + str(col)
+
+        # serial number
         if col == 0 and self.tableWidget.item(row, 0).text() != '':
             item_freq = self.tableWidget.item(row, 2)
             if item_freq is None:
@@ -64,6 +69,44 @@ class TestUi(QtGui.QMainWindow, Ui_MainWindow):
             serial = serial[-4:]
             freq = (int(serial, 16) % 5 + 1) / 2 + 402.5
             item_freq.setText(str(freq))
+
+        # 3.30 volts
+        elif col == 4 and self.tableWidget.item(row, col).text() != '':
+            value = float(self.tableWidget.item(row, col).text())
+
+            if value < 3.25 or value > 3.35:
+                self.invalid_cells.append(cell_id)
+                print('3.30 volts is invalid...')
+            elif cell_id in self.invalid_cells:
+                self.invalid_cells.remove(cell_id)
+                print('3.30 volts is valid...')
+
+        # 1.80 volts
+        elif col == 5 and self.tableWidget.item(row, col).text() != '':
+            value = float(self.tableWidget.item(row, col).text())
+
+            if value < 1.75 or value > 1.85:
+                self.invalid_cells.append(cell_id)
+            elif cell_id in self.invalid_cells:
+                self.invalid_cells.remove(cell_id)
+
+        # 3.00 volts
+        elif col == 6 and self.tableWidget.item(row, col).text() != '':
+            value = float(self.tableWidget.item(row, col).text())
+
+            if value < 2.95 or value > 3.05:
+                self.invalid_cells.append(cell_id)
+            elif cell_id in self.invalid_cells:
+                self.invalid_cells.remove(cell_id)
+
+        # Battery voltage
+        elif col == 7 and self.tableWidget.item(row, col).text() != '':
+            value = float(self.tableWidget.item(row, col).text())
+
+            if value < 4.00:
+                self.invalid_cells.append(cell_id)
+            elif cell_id in self.invalid_cells:
+                self.invalid_cells.remove(cell_id)
 
     def _cell_clicked(self, row, col):
         print('cell clicked: ', row, col)
