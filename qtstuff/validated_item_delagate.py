@@ -21,32 +21,36 @@ class ValidatedItemDelegate(QtGui.QStyledItemDelegate):
             return self._create_qlineedit_validator(widget, exp)
 
         elif index.column() == 4:  # 3.30 volts
-            #exp = '^(3\.)((2([5-9]))|(3([0-5])))$'
-            exp = '^([0-9])\.([0-9])([0-9])$'
+            # exp = '^(3\.)((2([5-9]))|(3([0-5])))$'  # allows input from 3.25-3.35 only
+            exp = '^([0-9])\.([0-9]){2,2}$'
             return self._create_qlineedit_validator(widget, exp)
 
         elif index.column() == 5:  # 1.80 volts
-            # exp = '^(1\.)((7([5-9]))|(8([0-5])))$'
+            # exp = '^(1\.)((7([5-9]))|(8([0-5])))$'  # allows input from 1.75-1.85 only
             exp = '^([0-9])\.([0-9])([0-9])$'
             return self._create_qlineedit_validator(widget, exp)
 
         elif index.column() == 6:  # 3.00 volts
-            # exp = '^([23]\.)((9([5-9]))|(0([0-5])))$'
+            # exp = '^([23]\.)((9([5-9]))|(0([0-5])))$'  # allows input from 2.95-3.05 only
             exp = '^([0-9])\.([0-9])([0-9])$'
             return self._create_qlineedit_validator(widget, exp)
 
         elif index.column() == 7:  # Battery Voltage
-            # exp = '^[4-9]\.\d\d'
+            # exp = '^[4-9]\.\d\d'  # allows input from 4.00-9.99 only
             exp = '^([0-9])\.([0-9])([0-9])$'
             return self._create_qlineedit_validator(widget, exp)
 
         elif index.column() == 8:  # Technician1
             return self._create_technician_combobox(widget,
-                technicians, index.data())
+                                                    technicians, index.data())
 
         return super(ValidatedItemDelegate, self).createEditor(widget, option, index)
 
     def paint(self, QPainter, QStyleOptionViewItem, QModelIndex):
+
+        # by calling the super class first it allows our marker to appear above the cell highlight
+        QtGui.QStyledItemDelegate(self).paint(QPainter, QStyleOptionViewItem, QModelIndex)
+
         cell = str(QModelIndex.row()) + str(QModelIndex.column())
 
         if cell in self.validation_object:
@@ -55,8 +59,6 @@ class ValidatedItemDelegate(QtGui.QStyledItemDelegate):
             option = QStyleOptionViewItem
             painter.drawPixmap(option.rect.right() - self.invalid_icon.width() - 1,
                                option.rect.y() + 1, self.invalid_icon)
-
-        QtGui.QStyledItemDelegate(self).paint(QPainter, QStyleOptionViewItem, QModelIndex)
 
     def _create_technician_combobox(self, widget, techs, data):
         editor = QtGui.QComboBox(widget)
@@ -67,8 +69,12 @@ class ValidatedItemDelegate(QtGui.QStyledItemDelegate):
             editor.setCurrentIndex(editor.findText(data))
         return editor
 
-    def _create_qlineedit_validator(self, widget, exp):
-            editor = QtGui.QLineEdit(widget)
-            validator = QtGui.QRegExpValidator(QtCore.QRegExp(exp), editor)
-            editor.setValidator(validator)
-            return editor
+    def _create_qlineedit_validator(self, widget, exp, mask=None):
+        editor = QtGui.QLineEdit(widget)
+        validator = QtGui.QRegExpValidator(QtCore.QRegExp(exp), editor)
+        editor.setValidator(validator)
+
+        if mask:
+            editor.setInputMask(mask)
+
+        return editor
